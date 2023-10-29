@@ -4,17 +4,21 @@ import os
 from dotenv import load_dotenv
 import json
 
+# Load API Key
 load_dotenv()
 together.api_key = os.environ['TOGETHER_KEY']
 
+# Source Data Files
 finance_file = 'input/finance_data.csv'
 medical_file = 'input/medical_data.csv'
 attribute_file = 'input/attribute_data.csv'
 
+# Source Use Cases
 finance_use = 'Evaluating the legitimacy of companies based on several factors'
 medical_use = 'Specifying and identifying symptoms for depression in the healthcare industry. The names should be anonymous, but still preserve information and trends present in the input data'
 attribute_use = 'Extracting specific attributes from product titles'
 
+# Synthetic Fine Tuning Prompt
 synthetic_prompt = \
 """<s>[INST] SYS
 {Your job is to take in the given dataset and create 3 rows of synthetic data that can be used to fine-tune a large language model for the use case of { use_case }.}
@@ -26,8 +30,8 @@ synthetic_prompt = \
 Output Data:
 }[/INST] {{ output_data }} </s>"""
 
+# Data Formatting Loop
 output_file = 'output/synthetic_tune.jsonl'
-
 with open(output_file, 'w') as outfile:
     files = [finance_file, medical_file, attribute_file]
     use_cases = [finance_use, medical_use, attribute_use]
@@ -47,7 +51,7 @@ with open(output_file, 'w') as outfile:
                     outfile.write('\n')
                     batch = []
 
-#Checks whether 
+# Togther Prechecks and Upload
 resp = together.Files.check(file="output/synthetic_tune.jsonl")
 print(resp)
 
@@ -57,6 +61,7 @@ print(resp)
 file_id = resp["id"]
 files_list = together.Files.list()
 
+# Start Together Fine Tuning
 resp = together.Finetune.create(
   training_file = file_id,
   model = 'togethercomputer/llama-2-7b',
