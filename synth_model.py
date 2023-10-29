@@ -59,12 +59,12 @@ files_list = together.Files.list()
 
 resp = together.Finetune.create(
   training_file = file_id,
-  model = 'togethercomputer/llama-2-70b',
+  model = 'togethercomputer/llama-2-7b',
   n_epochs = 3,
   n_checkpoints = 1,
   batch_size = 4,
   learning_rate = 1e-5,
-  suffix = 'synthetic_fine_tune',
+  suffix = 'synthetic_fine_tune_7b',
 )
 
 fine_tune_id = resp['id']
