@@ -34,6 +34,10 @@ def generate_synthetic_data(use_case, sample_data, n=60):
         synthetic_data.append(generated_text)
     combined = ('').join(synthetic_data)
     cut = [l.split(',') for l in combined.split('\n')]
+    with open('output/synthetic_data_save.txt', 'a') as f:
+        f.write('Synthetic Data Save\n')
+        f.write(str(cur))
+        f.write('\n\n')
     return cut
 
 def generate_tuning_data(use_case, synthetic_data, ans_cols, n=100):
@@ -62,9 +66,9 @@ def generate_tuning_data(use_case, synthetic_data, ans_cols, n=100):
 
 # Fine Tune LLM With Synthetic Data
 
-def tune_variable_model(use_case, sample_data, ans_cols):
+def tune_variable_model(use_case, sample_data, ans_cols, saved_synth=''):
     file_index = os.environ.get('synthetic_index', '1')
-    synthetic_data = generate_synthetic_data(use_case, sample_data)
+    synthetic_data = generate_synthetic_data(use_case, sample_data) if not saved_synth else saved_synth
     tuning_data = generate_tuning_data(use_case, synthetic_data, ans_cols)
     synthetic_data_file_path = f'output/synthetic_data{file_index}.jsonl'
 

@@ -29,11 +29,11 @@ medical_use = 'Specifying and identifying symptoms for depression in the healthc
 attribute_use = 'Extracting specific attributes from product titles'
 
 # Create variable models for each use case
-finance_resp = tune_variable_model(finance_use, finance_sample, finance_ans)
-print('Financial Model: ' + finance_resp['model_output_name'])
-
 medical_resp = tune_variable_model(medical_use, medical_sample, medical_ans)
 print('Medical Model: ' + medical_resp['model_output_name'])
+
+finance_resp = tune_variable_model(finance_use, finance_sample, finance_ans)
+print('Financial Model: ' + finance_resp['model_output_name'])
 
 attribute_resp = tune_variable_model(attribute_use, attribute_sample, attribute_ans)
 print('Attribute Model: ' + attribute_resp['model_output_name'])
