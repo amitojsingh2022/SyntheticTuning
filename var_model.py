@@ -13,6 +13,7 @@ together.api_key = os.environ['TOGETHER_KEY']
 # Generate Synthetic Data From Use Case and Sample
 
 def generate_synthetic_data(use_case, sample_data, n=60):
+    print('Generating Synthetic Data.')
     model = 'amitojs@berkeley.edu/llama-2-7b-synthetic_fine_tune_7b-2023-10-29-06-54-15'
     synthetic_data = [sample_data]
     while len(synthetic_data) < n / 3:
@@ -36,6 +37,7 @@ def generate_synthetic_data(use_case, sample_data, n=60):
     return cut
 
 def generate_tuning_data(use_case, synthetic_data, ans_cols, n=100):
+    print('Formatting Synthetic Data.')
     header = synthetic_data[0]
     points = synthetic_data[1:]
     tuning_data = []
@@ -60,7 +62,7 @@ def generate_tuning_data(use_case, synthetic_data, ans_cols, n=100):
 
 # Fine Tune LLM With Synthetic Data
 
-def tune_variable_model(use_case, sample_data):
+def tune_variable_model(use_case, sample_data, ans_cols):
     file_index = os.environ.get('synthetic_index', '1')
     synthetic_data = generate_synthetic_data(use_case, sample_data)
     tuning_data = generate_tuning_data(use_case, synthetic_data, ans_cols)
@@ -71,9 +73,11 @@ def tune_variable_model(use_case, sample_data):
             outfile.write(str(t))
             outfile.write('\n')
 
+    print('Uploading Tuning Data.')
     resp = together.Files.upload(file=synthetic_data_file_path)
     file_id = resp["id"]
 
+    print('Finetuning Model.')
     resp = together.Finetune.create(
         training_file = file_id,
         model = 'togethercomputer/llama-2-7b-chat',
@@ -86,7 +90,3 @@ def tune_variable_model(use_case, sample_data):
     os.environ['synthetic_index'] = str(int(file_index) + 1)
     dotenv.set_key('.env', 'synthetic_index', os.environ['synthetic_index'])
     return resp
-
-#Might have to do additional training on the model with specific questions and answers unless the chat bot comes into clutch
-
-# Deploy LLM For Use

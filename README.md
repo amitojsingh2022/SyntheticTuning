@@ -47,7 +47,15 @@ We used synthetic fine tuning for three use cases:
 3) Product Attribute Extraction
 
 ### Use Case 1: Anonymous Medical Data Abstraction
+• Input: pre existing or collected clinical data including responses to questionnaires, information on health conditions, and doctor diagnoses in order to create a new dataset of patients
+• Impact: Allows a way to disguise sensitive data about participants in order to protect the privacy of the original participants. The identity of the original patient is concealed and the integrity of the original data set is preserved since the newly created data mimics trends observed in the original dataset
+
 ### Use Case 2: Financial Fraud Detection
+• Input: large chunks of data on company info including revenue_growth, customer_reviews, and etc to create a list of potentially fraudulent companies
+• Impact: Allows a quick and easy method to create a suspicion list saving the government more time and resources when detecting fraudulent companies.
+
 ### Use Case 3: Product Attribute Extraction
+• Input: large amounts of data on various product titles that include a product’s attributes such as product brand, product category, and etc. to create a list of products and their features
+• Impact: Creates a quick and easy way to access a specific brand’s product inventory and 
 
 ## Conclusion
