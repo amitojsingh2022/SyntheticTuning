@@ -59,3 +59,4 @@ We used synthetic fine tuning for three use cases:
 • Impact: Creates a quick and easy way to access a specific brand’s product inventory and 
 
 ## Conclusion
+We build some cool stuff!
